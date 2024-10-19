@@ -18,11 +18,14 @@ uvm_analysis_export #(top_sequence_item) top_score_mail;
 top_sequence_item top_score;
 uvm_tlm_analysis_fifo #(top_sequence_item) top_mem_analysis_fifo;
 
-
+uvm_analysis_export #(uart_sequence_item) uart_score_mail; 
+uart_sequence_item uart_score;
+uvm_tlm_analysis_fifo #(uart_sequence_item) uart_analysis_fifo;
 
 `include "../register_memory_environment/reg_scoreboard_lib.sv" 
 `include "../register_memory_2_environment/reg2_scoreboard_lib.sv" 
 `include "../alu/alu_scoreboard_lib.sv"   
+`include "../uart_environment/uart_scoreboard_lib.sv" 
 `include "scoreboard_lib.sv"   
 
 
@@ -50,6 +53,10 @@ function void build_phase(uvm_phase phase);
     top_score             = top_sequence_item::type_id::create("top_score");
     top_mem_analysis_fifo = new("top_mem_analysis_fifo", this);
 
+    uart_score_mail        = new("uart_score_mail",this) ;
+    uart_score             = uart_sequence_item::type_id::create("uart_score");
+    uart_analysis_fifo     = new("uart_analysis_fifo", this);
+
 endfunction
 
 function void connect_phase(uvm_phase phase);
@@ -59,6 +66,7 @@ function void connect_phase(uvm_phase phase);
     reg2_score_mail.connect(reg2_mem_analysis_fifo.analysis_export) ; 
     alu_score_mail.connect(alu_analysis_fifo.analysis_export) ; 
     top_score_mail.connect(top_mem_analysis_fifo.analysis_export) ; 
+    uart_score_mail.connect(uart_analysis_fifo.analysis_export) ; 
 
 endfunction
 
@@ -82,16 +90,21 @@ task run_phase (uvm_phase phase) ;
             begin 
                 top_mem_analysis_fifo.get(top_score);
             end 
+            begin 
+                uart_analysis_fifo.get(uart_score);
+            end 
         join 
         `include "../register_memory_environment/reg_scoreboard_comparison.sv"
         `include "../register_memory_2_environment/reg2_scoreboard_comparison.sv"
         `include "../alu/alu_scoreboard_comparison.sv"
         `include "scoreboard_comparison.sv"
+        `include "../uart_environment/uart_scoreboard_comparison.sv"
+
 
 
 
     
-    end
+    end 
 
 endtask 
 
@@ -105,9 +118,9 @@ endtask
 
 task display_alu_test_cases_report () ;
 
-    $display("The Number of Passed ALU test cases is :%0P " , alu_passed_test_cases ); 
-    $display("The Number of Failed ALU test cases is :%0P " , alu_failed_test_cases ); 
-    $display("The Number of Total  ALU test cases is :%0P " , alu_failed_test_cases+alu_passed_test_cases ); 
+    $display("The Number of ALU Passed test cases is :%0P " , alu_passed_test_cases ); 
+    $display("The Number of ALU Failed test cases is :%0P " , alu_failed_test_cases ); 
+    $display("The Number of ALU Total  test cases is :%0P " , alu_failed_test_cases+alu_passed_test_cases ); 
 
 endtask 
 
@@ -126,4 +139,12 @@ task display_top_test_cases_report () ;
     $display("The Number of TOP TOTAL  test cases is :%0P " , top_failed_test_cases+top_passed_test_cases ); 
 
 endtask 
+
+task display_uart_test_cases_report () ;
+
+    $display("The Number of uart Passed test cases is :%0P " , uart_passed_test_cases ) ; 
+    $display("The Number of uart Failed test cases is :%0P " , uart_failed_test_cases ) ; 
+  
+endtask 
+
 endclass

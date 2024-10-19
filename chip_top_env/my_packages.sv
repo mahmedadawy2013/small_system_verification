@@ -1,4 +1,4 @@
-
+`timescale 1ns/1ps
 package pack1; 
     import uvm_pkg::*   ;
     `include "uvm_macros.svh"           
@@ -32,6 +32,14 @@ package pack1;
         `include "../alu/alu_agent_config.sv"
         `include "../alu/alu_monitor.sv"
         `include "../alu/alu_agent.sv"
+    // ******************************************************************************************************
+        `include "../uart_environment/uart_sequence_item.sv"
+        `include "../uart_environment/uart_sequence.sv"
+        `include "../uart_environment/uart_sequencer.sv"
+        `include "../uart_environment/uart_driver.sv"   
+        `include "../uart_environment/uart_agent_config.sv"
+        `include "../uart_environment/uart_monitor.sv"
+        `include "../uart_environment/uart_agent.sv"
     // ******************************************************************************************************
     `include "parent_sequencer.sv"
     `include "parent_sequence.sv"

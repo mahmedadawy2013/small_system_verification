@@ -7,7 +7,10 @@ class top_sequence_item extends uvm_sequence_item  ;
 // This is the base transaction object Container that will be used 
 // in the environment to initiate new transactions and // capture transactions at DUT interface
 rand  bit  sel_top; 
-bit  [19:0] mux_out_top; 
+rand  bit  data_valid_top;
+      bit  tx_out_top;
+      bit  busy_top;   
+      bit  [19:0] mux_out_top; 
 
 
 function  new(string name = "SEQUENCE_ITEM ");

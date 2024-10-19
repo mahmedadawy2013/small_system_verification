@@ -6,6 +6,7 @@ top_agent        agent_instance;
 reg_agent        reg_agent_instance;
 reg2_agent       reg2_agent_instance;
 alu_agent        alu_agent_instance;
+uart_agent        uart_agent_instance;
 parent_sequencer parent_sequencer_instance;
 
 function  new(string name = "ENVIRONMENT", uvm_component parent = null);
@@ -20,6 +21,7 @@ function void build_phase(uvm_phase phase);
     reg_agent_instance          = reg_agent::type_id::create("reg_agent_instance",this);
     reg2_agent_instance         = reg2_agent::type_id::create("reg2_agent_instance",this);
     alu_agent_instance          = alu_agent::type_id::create("alu_agent_instance",this);
+    uart_agent_instance         = uart_agent::type_id::create("uart_agent_instance",this);
     parent_sequencer_instance   = parent_sequencer::type_id::create("parent_sequencer_instance",this);
     scoreboard_instance         = top_scoreboard::type_id::create("scoreboard_instance",this); 
     subscriber_inscance         = top_subscriber::type_id::create("subscriber_inscance",this); 
@@ -35,6 +37,7 @@ function void connect_phase(uvm_phase phase);
     reg_agent_instance.analysis_port_env_to_fifo.connect(scoreboard_instance.reg_score_mail);
     reg2_agent_instance.analysis_port_env_to_fifo.connect(scoreboard_instance.reg2_score_mail);
     alu_agent_instance.alu_analysis_port_env_to_fifo.connect(scoreboard_instance.alu_score_mail);
+    uart_agent_instance.uart_analysis_port_env_to_fifo.connect(scoreboard_instance.uart_score_mail);
     agent_instance.top_analysis_port_env_to_fifo.connect(scoreboard_instance.top_score_mail);
 endfunction
 

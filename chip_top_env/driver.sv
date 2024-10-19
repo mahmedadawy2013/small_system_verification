@@ -39,7 +39,13 @@ task run_phase (uvm_phase phase) ;
     @(negedge top_driv_intf.clk_top_intf)
     t_drive.display_Sequence_item("DRIVER");
     `uvm_info("DRIVER","Drive has insert the data into the DUT ",UVM_NONE) ;
-    top_driv_intf.sel_top_intf      = t_drive.sel_top; 
+    top_driv_intf.sel_top_intf         = t_drive.sel_top; 
+    top_driv_intf.data_valid_top_intf  = t_drive.data_valid_top;  
+    if (t_drive.data_valid_top == 1 ) begin 
+        @ (posedge top_driv_intf.clk_top_intf);
+        @(negedge top_driv_intf.clk_top_intf)
+        top_driv_intf.data_valid_top_intf     = 0; 
+    end 
     seq_item_port.item_done(); 
     end 
 endtask 

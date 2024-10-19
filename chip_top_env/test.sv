@@ -25,12 +25,15 @@ task run_phase (uvm_phase phase) ;
 
     phase.raise_objection(this,"STARTING TEST") ; 
         `uvm_info("TEST","WE ARE RUNNING THE TEST ",UVM_NONE)
-        parent_sequence_instance.start(environment_instance.parent_sequencer_instance);
+        repeat(20) begin 
+            parent_sequence_instance.start(environment_instance.parent_sequencer_instance);
+        end
         @(negedge test_intf.clk_top_intf) 
         environment_instance.scoreboard_instance.display_reg_test_cases_report();
         environment_instance.scoreboard_instance.display_reg2_test_cases_report();
         environment_instance.scoreboard_instance.display_alu_test_cases_report();
         environment_instance.scoreboard_instance.display_top_test_cases_report();
+        environment_instance.scoreboard_instance.display_uart_test_cases_report();
     phase.drop_objection(this,"FINSHING TEST")  ; 
 endtask 
 

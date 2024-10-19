@@ -5,7 +5,7 @@ all: 	compile sim
 compile:
 		vlib work
 		vlog -sv ../RTL/RegFile.sv ../RTL/ALU.sv ../RTL/chip_top.sv ../RTL/top_mux.sv  ../RTL/uart/UART_TX.sv \
-		top_intf.sv ../register_memory_environment/reg_intf.sv ../ALU/alu_intf.sv ../register_memory_2_environment/reg2_intf.sv \
+		top_intf.sv ../register_memory_environment/reg_intf.sv ../ALU/alu_intf.sv ../register_memory_2_environment/reg2_intf.sv ../uart_environment/uart_intf.sv \
 		my_packages.sv  tb.sv   
 compile_sequence_item:
 		vlib work

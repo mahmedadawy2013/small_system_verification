@@ -19,8 +19,9 @@ endtask
 task body();
       for (int i=0; i<16; ++i) begin
         start_item(t);
-          t.randomize(); 
-          t.display_Sequence_item("SEQUENCE");
+        t.randomize() with {
+                            t.data_valid_top    == 1 ; }; 
+        t.display_Sequence_item("SEQUENCE");
         finish_item(t); 
       end                                        
 endtask
